@@ -1,23 +1,26 @@
 addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full)
 
-import AssemblyKeys._
+name := "tasker"
 
-assemblySettings
-
-name := "project_name"
-
-version := "0.0.1"
+version := "0.0.1-SNAPSHOT"
 
 scalaVersion := "2.11.8"
+
+mainClass := Some("com.machinomy.tasker.Main")
 
 resolvers ++= Seq(
   "Machinomy Release" at "http://artifactory.machinomy.com/artifactory/release",
   "Machinomy Snapshot" at "http://artifactory.machinomy.com/artifactory/snapshot"
 )
 
+val sprayV = "1.3.3"
+
 libraryDependencies ++= Seq(
-  "com.machinomy" %% "bergae" % "0.0.3-SNAPSHOT",
-  "com.typesafe" % "config" % "1.3.0"
+  "com.machinomy" %% "bergae" % "0.0.2-SNAPSHOT",
+  "com.github.scopt" %% "scopt" % "3.5.0",
+  "com.typesafe" % "config" % "1.3.0",
+  "io.spray"            %%  "spray-can"     % sprayV,
+  "io.spray"            %%  "spray-routing-shapeless2" % sprayV
 )
 
 mergeStrategy in assembly <<= (mergeStrategy in assembly) { (old) =>
@@ -32,3 +35,5 @@ mergeStrategy in assembly <<= (mergeStrategy in assembly) { (old) =>
   case _ => MergeStrategy.first
 }
 }
+
+lazy val root = (project in file(".")).enablePlugins(SbtTwirl)
